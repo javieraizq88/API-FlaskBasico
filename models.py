@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy() #objeto de referencia
+db = SQLAlchemy() # objeto de referencia
 
 class Contact(db.Model): # crea una tabla de contactos
     __tablename__ = "contacts"
