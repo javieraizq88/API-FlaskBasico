@@ -14,3 +14,9 @@ class Contact(db.Model): # crea una tabla de contactos
             "name": self.name,
             "phone": self.phone
         }
+
+
+
+
+
+
