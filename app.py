@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 # jsonify devuelve en formato JSON la informacion
-# request dice por q metodo estoy haciendo la peticion
+# request para usar GET, POST, PUT, DELETE
 # render_template : crea una salida en html del archivo q yo le diga
 from flask_script import Manager # generar los comando para q corra la app
 from flask_migrate import Migrate, MigrateCommand # libreria para q genera los comandos para hacer las migraciones (script de las tablas) y crearlas en el gestor de BBDD
@@ -8,7 +8,8 @@ from flask_cors import CORS #protege la app y evita el error de cors al ejecutar
 from models import db #comunar la app con el gestor de migraciones 
 
 app = Flask(__name__) # atributo obligatorio
-app.url_map.strict_slashes = False # permite cargar los metodos con o sin slash
+
+app.url_map.strict_slaches = False # para q si falta un / no de error
 app.config['DEBUG'] = True # para ver los errores de la app
 app.config['ENV'] = 'development' # entorno de la app o se puede usar 'production' cuando ya se publique
 # para desarrollo usando sqlite
@@ -18,6 +19,7 @@ app.config['ENV'] = 'development' # entorno de la app o se puede usar 'productio
 app.config['SQLALCHEMY_DATABASE_URI'] = '' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
+db.init_app(app)
 Migrate(app, db)
 CORS(app) #para proteger la app
 
@@ -49,3 +51,5 @@ def test2(id, cat_id):
 
 if __name__ == '__main__':
     manager.run()
+
+
