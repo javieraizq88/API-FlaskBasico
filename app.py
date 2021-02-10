@@ -8,6 +8,7 @@ from flask_cors import CORS #protege la app y evita el error de cors al ejecutar
 from models import db #comunar la app con el gestor de migraciones 
 
 app = Flask(__name__) # atributo obligatorio
+
 app.url_map.strict_slaches = False # para q si falta un / no de error
 app.config['DEBUG'] = True # para ver los errores de la app
 app.config['ENV'] = 'development' # entorno de la app o se puede usar 'production' cuando ya se publique
@@ -28,6 +29,25 @@ manager.add_command ('db', MigrateCommand) # init (carpeta de migraciones la pri
 @app.route('/') #por defecto es method: ['GET']
 def root():
     return render_template('index.html')
+
+@app.route('/api/test', methods=['GET', 'POST']) # GET obtiene los elementos q yo defina. POST para crear nuevos elementos
+@app.route('/api/test/<int:id>', methods=['GET', 'PUT', 'DELETE']) # parametros q tengo q decir q elementos quiero obtener, actualizar o eliminar
+def test(id = None):
+    if request.method == 'GET':
+        return jsonify({'msg': 'method GET'}), 200 # dara un mensaje de ok (200) al momento q se haga la peticion
+    if request.method == 'POST':
+        return jsonify({'msg': 'method POST'}), 200
+    if request.method == 'PUT':
+        return jsonify({'msg': 'method PUT'}), 200
+    if request.method == 'DELETE':
+        return jsonify({'msg': 'method DELETE'}), 200
+
+@app.route('/api/test/<int:id>/category/<int:cat_id>', methods=['GET', 'POST'])
+def test2(id, cat_id):
+    if request.method == 'GET':
+        return jsonify({'valores': {'id': id, 'cat_id': cat_id}}), 200
+    if request.method == 'POST':
+        return jsonify({'valores': {'id': id, 'cat_id': cat_id}}), 200
 
 if __name__ == '__main__':
     manager.run()
